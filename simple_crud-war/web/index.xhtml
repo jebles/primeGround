@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            
+            <p:dataTable var="item" value="#{managedBeanTipoRepuesto.lista}">
+                <p:column headerText="ID">
+                    <h:outputText value="#{item.pkId}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{item.nombre}" />
+                </p:column>
+                <p:column headerText="Desc">
+                    <h:outputText value="#{item.descripcion}" />
+                </p:column>
+                <p:column headerText="Opc">
+                    <p:commandButton value="EDITAR" update=":form:datos" actionListener="#{managedBeanTipoRepuesto.seleccionar_item(item, 2)}" oncomplete="PF('dlg2').show();"/>
+                     <p:commandButton style="background-color: red" value="ELIMINAR" update=":form:datos" actionListener="#{managedBeanTipoRepuesto.seleccionar_item(item, 3)}" oncomplete="PF('dlg2').show();"/>
+                    
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="CREAR" update=":form:datos" actionListener="#{managedBeanTipoRepuesto.reinstanciar()}" oncomplete="PF('dlg2').show();"/>
+            
+            
+            <p:dialog header="Procesando" widgetVar="dlg2" modal="true" height="150">
+                <p:panelGrid id="datos" columns="1">
+                    <p:panelGrid columns="2">
+                        <h:outputText value="nombre"/>
+                        <p:inputText value="#{managedBeanTipoRepuesto.objeto.nombre}"/>
+                        <h:outputText value="descripción"/>
+                        <p:inputText value="#{managedBeanTipoRepuesto.objeto.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{managedBeanTipoRepuesto.tipo_accion eq 1 ? 'GRABAR' : managedBeanTipoRepuesto.tipo_accion eq 2 ? 'EDITAR' : managedBeanTipoRepuesto.tipo_accion eq 3 ? 'BORRAR' : 'err'}" update=":form" actionListener="#{managedBeanTipoRepuesto.procesar()}" oncomplete="PF('dlg2').hide();"/>
+                </p:panelGrid>
+            </p:dialog>
+            
+        </h:form>
+        
+        
+        
+    </h:body>
+</html>
+
